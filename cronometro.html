@@ -1,0 +1,224 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>StopWatch</title>
+		<link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+		<script>
+/*
+var t=0,ic=100/6,i=n=null;m=Math;
+function ge(e){return document.getElementById(e);}
+function start(){if (i==n){var b=new Date;i=setInterval(function(){uT(b);},ic);}}
+function stop(){if (i!=n)clearInterval(i);i=n;if (t!=0)ge('co').innerHTML="Continuar";}
+function reset(){t=0;if (i!=n)clearInterval(i);i=n;putContent(t);ge('co').innerHTML="Comenzar";}
+function uT(s){var now=new Date;eT=now.getTime()-s.getTime();t=(eT>t)?eT:t+ic;putContent(t);}
+function formatTime(t){mi=m.floor(t/60000);se=m.floor(t/1000)-mi*60;ms=m.floor((t-(mi*60000+se*1000))/10);return (mi>0?mi>9?mi+":":"0"+mi+":":"00:")+(se>0?se>9?se+":":"0"+se+":":"00:")+(ms>0?ms>9?ms:"0"+ms:"00");}
+function putContent(t){ge('time').innerHTML=formatTime(t);}
+*/
+			//Some stuff we need
+			var time = 0;
+			var intCount = 1000/60;//60fps
+			var interval = null;
+
+			//The translations, add yours!
+			var translation = "es";//es,en
+			var defaultTranslation = "es";
+			var es = {
+				start : "Comenzar",
+				conti : "Continuar",
+				stop : "Detener",
+				restart : "Reiniciar"
+			};
+			var en = {
+				start : "Start",
+				conti : "Continue",
+				stop : "Stop",
+				restart : "Restart"
+			};
+
+			/**
+			 * Sets the translation to use, if it doesn't exist, the default's will be used.
+			 * @param {String} tr Translation to use, make sure it's defined.
+			 */
+			function setTranslation( tr )
+			{
+				translation = tr;
+			}
+
+			/**
+			 * Get the translation's array
+			 * @return {array} Array containing translation.
+			 */
+			function getTranslation()
+			{
+				var r;
+				switch ( translation )
+				{
+					case "es":
+						r = es;
+						break;
+					case "en":
+						r = en;
+						break;
+					default:
+						r = defaultTranslation;
+				}
+
+				return r;
+			}
+
+			/**
+			 * Set the texts for the application.
+			 */
+			function setTexts()
+			{
+				document.getElementById( 'time' ).innerHTML = "00:00:00";
+				document.getElementById( 'co' ).innerHTML = time == 0 ? getTranslation().start : getTranslation().conti;
+				document.getElementById( 'de' ).innerHTML = getTranslation().stop;
+				document.getElementById( 're' ).innerHTML = getTranslation().restart;
+			}
+
+			/**
+			 * Starts the timer.
+			 * @return {void}
+			 */
+			function start()
+			{
+				if ( interval == null )
+				{
+					var before = new Date();
+
+					interval = setInterval( 
+						function()
+						{
+							updateTime( before );
+						},
+						intCount
+					);
+				}
+			}
+
+			/**
+			 * Stops the timer.
+			 * @return {void}
+			 */
+			function stop()
+			{
+				if ( interval != null )
+				{
+					clearInterval( interval );
+				}
+
+				interval = null;
+
+				if ( time != 0 )
+				{
+					document.getElementById( 'co' ).innerHTML = getTranslation().conti;
+				}
+			}
+
+			/**
+			 * Resets the timer to 0.
+			 * @return {void}
+			 */
+			function reset()
+			{
+				time = 0;//resets time
+
+				//resets interval
+				if ( interval != null )
+				{
+					clearInterval( interval );
+				}
+
+				interval = null;//delete interval
+				putContent( time );
+				document.getElementById( 'co' ).innerHTML = getTranslation().start;
+			}
+
+			/**
+			 * Updates the displayed time ,in case the user left the tab/window the elapsed time is added up.
+			 * @param  {Date} start The time when the timer started.
+			 * @return {void} 
+			 */
+			function updateTime( start )
+			{
+				var now = new Date();//what time it is? Right, just now!
+
+				elapsedTime = now.getTime() - start.getTime();//So, for how long has the timer been going?
+				time = ( elapsedTime > time ) ? elapsedTime : time + intCount;//if user left tab/window, get elapsed time
+				putContent( time );
+			}
+
+			/**
+			 * Formats the timer's time to a nice string displayable to the user.
+			 * @param  {int} t Time in miliseconds to format.
+			 * @return {String}   Nicely formatted string to display.
+			 */
+			function formatTime( t )
+			{
+				m = Math.floor( t/60000 );//minutes
+				s = Math.floor( t/1000 ) - m*60;//seconds
+				ms = Math.floor( ( t - ( m*60000 + s*1000 ) ) / 10 );//miliseconds
+
+				/*
+					Add zeros if needed
+				 */
+				r = ( ( m > 0 ) ? ( m > 9 ) ? ( m + ":" ) : ( "0" + m + ":") : "00:" ) +
+					( ( s > 0 ) ? ( s > 9 ) ? ( s + ":" ) : ( "0" + s + ":") : "00:" ) +
+					( ( ms > 0 ) ? ( ms > 9 ) ? ( ms ) : ( "0" + ms ) : "00" );//formated string
+
+				//And yeah, return the formatted string.
+				return r;
+			}
+
+			/**
+			 * Inserts given timer's formatted time to the corresponding DOM element.
+			 * @param  {int} t Time in miliseconds to display.
+			 * @return {void}
+			 */
+			function putContent( t )
+			{
+				//Basic. Set element  with "time" id to the corresponding formatted time.
+				document.getElementById( 'time' ).innerHTML = formatTime( t );
+			}
+
+
+		</script>
+
+	</head>
+	<body>
+
+		<!-- Could as well use padding but... nahh -->
+		<br>
+
+		<!-- The clickable things -->
+		<div class="text-center">
+			<!-- start/restart button -->
+			<button class="btn btn-primary btn-lg" onclick="start()">
+				<span id="co"></span> <i class="glyphicon glyphicon-play"></i>
+			</button>
+			<!-- stop button -->
+			<button class="btn btn-warning btn-lg" onclick="stop()">
+				<span id="de"></span> <i class="glyphicon glyphicon-pause"></i>
+			</button>
+			<!-- reset button -->
+			<button class="btn btn-danger btn-lg" onclick="reset()">
+				<span id="re"></span> <i class="glyphicon glyphicon-stop"></i>
+			</button>
+		</div>
+		
+		<!-- The timer's display -->
+		<div class="text-center">
+			<kbd id="time" style="font-size:20vw;"></kbd>
+		</div>
+
+		<!-- This is the copyright stuff, you may delete this if you want to. -->
+		<p class="text-center">&copy; DvlPxl 2014</p>
+	</body>
+
+	<script>
+		//Initializations
+		setTexts();
+	</script>
+<html>
