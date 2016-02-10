@@ -24,24 +24,23 @@ function putContent(t){ge('time').innerHTML=formatTime(t);}
 			var translation = "es";//es,en
 			var defaultTranslation = "es";
 			var es = {
-				start : "Comenzar",
-				conti : "Continuar",
-				stop : "Detener",
-				restart : "Reiniciar"
+				start: "Comenzar",
+				conti: "Continuar",
+				stop: "Detener",
+				restart: "Reiniciar"
 			};
 			var en = {
-				start : "Start",
-				conti : "Continue",
-				stop : "Stop",
-				restart : "Restart"
+				start: "Start",
+				conti: "Continue",
+				stop: "Stop",
+				restart: "Restart"
 			};
 
 			/**
 			 * Sets the translation to use, if it doesn't exist, the default's will be used.
 			 * @param {String} tr Translation to use, make sure it's defined.
 			 */
-			function setTranslation( tr )
-			{
+			function setTranslation(tr) {
 				translation = tr;
 			}
 
@@ -49,11 +48,9 @@ function putContent(t){ge('time').innerHTML=formatTime(t);}
 			 * Get the translation's array
 			 * @return {array} Array containing translation.
 			 */
-			function getTranslation()
-			{
+			function getTranslation() {
 				var r;
-				switch ( translation )
-				{
+				switch (translation) {
 					case "es":
 						r = es;
 						break;
@@ -63,35 +60,29 @@ function putContent(t){ge('time').innerHTML=formatTime(t);}
 					default:
 						r = defaultTranslation;
 				}
-
 				return r;
 			}
 
 			/**
 			 * Set the texts for the application.
 			 */
-			function setTexts()
-			{
-				document.getElementById( 'time' ).innerHTML = "00:00:00";
-				document.getElementById( 'co' ).innerHTML = time == 0 ? getTranslation().start : getTranslation().conti;
-				document.getElementById( 'de' ).innerHTML = getTranslation().stop;
-				document.getElementById( 're' ).innerHTML = getTranslation().restart;
+			function setTexts() {
+				document.getElementById('time').innerHTML = "00:00:00";
+				document.getElementById('co').innerHTML = time == 0? getTranslation().start: getTranslation().conti;
+				document.getElementById('de').innerHTML = getTranslation().stop;
+				document.getElementById('re').innerHTML = getTranslation().restart;
 			}
 
 			/**
 			 * Starts the timer.
 			 * @return {void}
 			 */
-			function start()
-			{
-				if ( interval == null )
-				{
+			function start() {
+				if (interval == null) {
 					var before = new Date();
-
-					interval = setInterval( 
-						function()
-						{
-							updateTime( before );
+					interval = setInterval(
+						function() {
+							updateTime(before);
 						},
 						intCount
 					);
@@ -102,18 +93,15 @@ function putContent(t){ge('time').innerHTML=formatTime(t);}
 			 * Stops the timer.
 			 * @return {void}
 			 */
-			function stop()
-			{
-				if ( interval != null )
-				{
-					clearInterval( interval );
+			function stop() {
+				if (interval != null) {
+					clearInterval(interval);
 				}
 
 				interval = null;
 
-				if ( time != 0 )
-				{
-					document.getElementById( 'co' ).innerHTML = getTranslation().conti;
+				if (time != 0) {
+					document.getElementById('co').innerHTML = getTranslation().conti;
 				}
 			}
 
@@ -121,33 +109,30 @@ function putContent(t){ge('time').innerHTML=formatTime(t);}
 			 * Resets the timer to 0.
 			 * @return {void}
 			 */
-			function reset()
-			{
+			function reset() {
 				time = 0;//resets time
 
 				//resets interval
-				if ( interval != null )
-				{
-					clearInterval( interval );
+				if (interval != null) {
+					clearInterval(interval);
 				}
 
 				interval = null;//delete interval
-				putContent( time );
-				document.getElementById( 'co' ).innerHTML = getTranslation().start;
+				putContent(time);
+				document.getElementById('co').innerHTML = getTranslation().start;
 			}
 
 			/**
 			 * Updates the displayed time ,in case the user left the tab/window the elapsed time is added up.
 			 * @param  {Date} start The time when the timer started.
-			 * @return {void} 
+			 * @return {void}
 			 */
-			function updateTime( start )
-			{
+			function updateTime(start) {
 				var now = new Date();//what time it is? Right, just now!
 
 				elapsedTime = now.getTime() - start.getTime();//So, for how long has the timer been going?
-				time = ( elapsedTime > time ) ? elapsedTime : time + intCount;//if user left tab/window, get elapsed time
-				putContent( time );
+				time = (elapsedTime > time)? elapsedTime: time + intCount;//if user left tab/window, get elapsed time
+				putContent(time);
 			}
 
 			/**
@@ -155,18 +140,15 @@ function putContent(t){ge('time').innerHTML=formatTime(t);}
 			 * @param  {int} t Time in miliseconds to format.
 			 * @return {String}   Nicely formatted string to display.
 			 */
-			function formatTime( t )
-			{
-				m = Math.floor( t/60000 );//minutes
-				s = Math.floor( t/1000 ) - m*60;//seconds
-				ms = Math.floor( ( t - ( m*60000 + s*1000 ) ) / 10 );//miliseconds
+			function formatTime(t) {
+				m = Math.floor(t/60000);//minutes
+				s = Math.floor(t/1000) - m*60;//seconds
+				ms = Math.floor((t - (m*60000 + s*1000))/10);//miliseconds
 
-				/*
-					Add zeros if needed
-				 */
-				r = ( ( m > 0 ) ? ( m > 9 ) ? ( m + ":" ) : ( "0" + m + ":") : "00:" ) +
-					( ( s > 0 ) ? ( s > 9 ) ? ( s + ":" ) : ( "0" + s + ":") : "00:" ) +
-					( ( ms > 0 ) ? ( ms > 9 ) ? ( ms ) : ( "0" + ms ) : "00" );//formated string
+				/* Add zeros if needed */
+				r = ((m > 0)? (m > 9)? (m + ":"): ("0" + m + ":"): "00:") +
+					((s > 0)? (s > 9)? (s + ":"): ("0" + s + ":"): "00:") +
+					((ms > 0)? (ms > 9)? (ms): ("0" + ms ): "00");//formated string
 
 				//And yeah, return the formatted string.
 				return r;
@@ -177,15 +159,11 @@ function putContent(t){ge('time').innerHTML=formatTime(t);}
 			 * @param  {int} t Time in miliseconds to display.
 			 * @return {void}
 			 */
-			function putContent( t )
-			{
+			function putContent(t) {
 				//Basic. Set element  with "time" id to the corresponding formatted time.
-				document.getElementById( 'time' ).innerHTML = formatTime( t );
+				document.getElementById('time').innerHTML = formatTime(t);
 			}
-
-
 		</script>
-
 	</head>
 	<body>
 
@@ -207,7 +185,7 @@ function putContent(t){ge('time').innerHTML=formatTime(t);}
 				<span id="re"></span> <i class="glyphicon glyphicon-stop"></i>
 			</button>
 		</div>
-		
+
 		<!-- The timer's display -->
 		<div class="text-center">
 			<kbd id="time" style="font-size:20vw;"></kbd>

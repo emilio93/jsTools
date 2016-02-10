@@ -24,28 +24,26 @@
 		<label style="padding: 1em;">
 			HEX:
 			 <input type="text" maxlength="7" size="7" name="hex" ng-model="hexColor" ng-keypress="checkHexadecimal()" ng-keyup="checkHexadecimal()" class="form-control">
-		</label>		
+		</label>
 	</div>
 
 	<div class='form-group'>
 		<label style="background-color:#c86464;padding: 1em; border-radius: 8px;">
 			RED:
 			 <input type="text" maxlength="3" size="3" name="r" ng-model="rgbColor.r" ng-keypress="checkCh('r')" ng-keyup="checkCh('r')" class="form-control">
-		</label>		
+		</label>
 
 		<label style="background-color:#64c864;padding: 1em; border-radius: 8px;">
 			GREEN:
 			 <input type="text" maxlength="3" size="3" name="g" ng-model="rgbColor.g" ng-keypress="checkCh('g')" ng-keyup="checkCh('g')" class="form-control">
-		</label>		
+		</label>
 
 		<label style="background-color:#6464c8;padding: 1em; border-radius: 8px;">
 			BLUE:
 			 <input type="text" maxlength="3" size="3" name="b" ng-model="rgbColor.b" ng-keypress="checkCh('b')" ng-keyup="checkCh('b')" class="form-control">
-		</label>		
+		</label>
 	</div>
 	<div id='sample' style="background-color:{{hexColor}}" ng-bind="sampleMessage"></div>
-
 </div>
-
 </body>
 </html>

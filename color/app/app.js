@@ -1,1 +1,1 @@
-var app  = angular.module('colorApp', []);
+var app = angular.module('colorApp', []);
